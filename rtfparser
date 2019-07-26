@@ -1,0 +1,23 @@
+import spacy
+import striprtf
+import os
+import glob
+from striprtf.striprtf import rtf_to_text
+
+nlp = spacy.load("en_core_web_sm")
+nlp.max_length = 30000000
+from spacy import displacy
+
+directory = input("Directory Path: ")
+files = list(glob.glob(os.path.join(directory, '*.*')))
+print(files)
+
+for file in files:
+    print(file)
+    cur_file = open(file, 'r')
+    text = rtf_to_text(cur_file.read())
+    doc = nlp(text)
+
+    for ent in doc.ents:
+        print(ent.text, ent.start_char, ent.end_char, ent.label_)
+    
