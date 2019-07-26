@@ -1,0 +1,91 @@
+import pynput
+import time 
+import threading
+
+from pynput.mouse import Button, Controller
+from pynput.keyboard import Listener, KeyCode
+
+button = Button.left
+
+class Collect(threading.Thread) :
+    def __init__(self) :
+        super().__init__()
+        self.running = False
+        self.program_running = True
+    def start_col(self):
+        self.running = True
+    def stop_col(self):
+        self.running = False
+    def exit(self):
+        self.stop_col()
+        self.program_running = False
+    def run(self):
+        first = True
+        while self.program_running:
+            while self.running:
+                mouse.position = (283, 300)
+                mouse.click (Button.left, 1)
+                time.sleep(0.5)
+                mouse.move (170, -40)
+                time.sleep(0.5)
+                mouse.click (Button.left, 1)
+                time.sleep(0.5)
+                mouse.move (0, 65)
+                time.sleep(0.4)
+                mouse.click (Button.left, 1)
+                time.sleep(0.4)
+                if first == True:
+                    mouse.move (-50, 30)
+                    time.sleep(2)
+                    mouse.click (Button.left, 1)
+                    time.sleep(2)
+                    mouse.position = (453, 325)
+                else: 
+                    mouse.move (-50, 30)
+                    time.sleep(2)
+                    mouse.click (Button.left, 1)
+                    time.sleep(2)
+                    mouse.move (333, 233)
+                    time.sleep(2)
+                    mouse.click (Button.left, 1)
+                    time.sleep(2)
+                    mouse.move (-70, 80)
+                    time.sleep(2)
+                    mouse.click (Button.left, 1)
+                    time.sleep(2)
+                    mouse.move (0, -80)
+                    time.sleep(2)
+                    mouse.click (Button.left, 1)
+                    mouse.position = (453, 325)
+                time.sleep(1)
+                mouse.move (0, 100)
+                time.sleep(0.1)
+                time.sleep(2)
+                mouse.move (30, -120)
+                time.sleep(0.5)
+                mouse.move (-200, 0)
+                mouse.click (Button.left, 1)
+                time.sleep(0.5)
+                if first == True:
+                     mouse.move (200, 0)
+                     first = False
+                else:
+                    mouse.move (300, 0)
+                mouse.click (Button.left, 1)
+                time.sleep(25)
+        
+mouse = Controller()
+collect_thread = Collect()
+collect_thread.start()
+
+def on_press(key):
+    if key == KeyCode(char='s'):
+        if collect_thread.running:
+            collect_thread.stop_col()
+        else: 
+            collect_thread.start_col()
+    elif key == KeyCode(char='e'):
+        collect_thread.exit()
+        listener.stop()
+with Listener(on_press=on_press) as listener:
+    listener.join()
